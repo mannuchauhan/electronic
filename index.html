@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroHub - Electronics Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            position: relative;
+            opacity: 0;
+            transition: all 1.5s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+        }
+
+        /* Navbar Sticky */
+        .sticky {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bbd09637-55c5-4be6-8732-ce3a268d9ff2.png') no-repeat center center/cover;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        /* Category Dropdown */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        /* Product Card */
+        .product-card {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Login Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 60vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="bg-white sticky">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <span class="text-2xl font-bold text-blue-600">ElectroHub</span>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                            <div class="dropdown relative">
+                                <button class="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                                    Categories <i class="fas fa-chevron-down ml-1"></i>
+                                </button>
+                                <div class="dropdown-menu absolute hidden mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                                    <div class="py-1">
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Smartphones</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Laptops</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Smart Home Devices</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Wires & Cables</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Audio Equipment</a>
+                                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">DIY Electronics</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" class="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Deals</a>
+                            <a href="#" class="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">About</a>
+                            <a href="#" class="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="flex items-center">
+                        <div class="relative mx-4">
+                            <input type="text" placeholder="Search products..." class="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <button class="absolute left-3 top-2.5 text-gray-400">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <button id="loginBtn" class="text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Login</button>
+                        <button class="ml-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Sign Up</button>
+                        <a href="#" class="ml-4 text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium relative">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-900 hover:text-blue-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <a href="#" class="ml-4 text-gray-900 hover:text-blue-600">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <div class="dropdown relative">
+                    <button class="text-gray-900 hover:text-blue-600 w-full text-left px-3 py-2 rounded-md text-base font-medium flex items-center justify-between">
+                        Categories <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu hidden mt-1 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+                        <div class="py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Smartphones</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Laptops</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Smart Home Devices</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Wires & Cables</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">Audio Equipment</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600">DIY Electronics</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Deals</a>
+                <a href="#" class="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="#" class="text-gray-900 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <div>
+                    <input type="text" placeholder="Search products..." class="mt-2 px-4 py-2 w-full border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div class="pt-2">
+                    <button id="mobileLoginBtn" class="w-full text-left text-gray-900 hover:text-blue-600 px-3 py-2 rounded-md text-base font-medium">Login</button>
+                </div>
+                <div>
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close float-right text-gray-500 hover:text-gray-700 cursor-pointer text-2xl">&times;</span>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Login to Your Account</h2>
+            <form id="loginForm">
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input type="email" id="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-6">
+                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="flex items-center justify-between mb-4">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+                        Login
+                    </button>
+                </div>
+                <div class="text-center">
+                    <a href="#" class="inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800">
+                        Forgot Password?
+                    </a>
+                </div>
+                <div class="text-center mt-4">
+                    <p class="text-gray-600 text-sm">Don't have an account? <a href="#" class="text-blue-600 hover:text-blue-800 font-bold">Sign up</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content text-center px-4 reveal">
+            <h1 class="text-4xl font-bold mb-4 md:text-5xl">Premium Electronics & Components</h1>
+            <div class="flex justify-center gap-4 mb-6">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/dc937949-dabb-41f8-9aa7-03393a3a2498.png" alt="Latest smartphone models" class="w-16 h-16 object-cover rounded-lg">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/23a605f4-713c-4c8d-a4f5-69d460858086.png" alt="Ultra-thin laptop" class="w-16 h-16 object-cover rounded-lg">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/684698d6-eb63-405c-9544-00edccd03975.png" alt="Wireless headphones" class="w-16 h-16 object-cover rounded-lg">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c0d37cba-b61f-421c-8f38-8a24e11e63a8.png" alt="Electronic components" class="w-16 h-16 object-cover rounded-lg">
+            </div>
+            <p class="text-xl mb-8 md:text-2xl">Everything you need for your digital life at unbeatable prices</p>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105">
+                Shop Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="py-16 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 reveal">Shop By Category</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div class="category-card bg-gray-100 p-6 rounded-lg text-center cursor-pointer hover:shadow-lg transition duration-300 reveal">
+                    <div class="w-20 h-20 mx-auto mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5eae26ef-b8b1-46e9-a232-134724a95bb2.png" alt="Latest smartphone models with edge-to-edge displays and multiple cameras" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-semibold">Smartphones</h3>
+                </div>
+                <div class="category-card bg-gray-100 p-6 rounded-lg text-center cursor-pointer hover:shadow-lg transition duration-300 reveal">
+                    <div class="w-20 h-20 mx-auto mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1e8623f7-b88f-47a0-9410-3e0ccfd367a1.png" alt="Thin and powerful laptops with high-resolution displays" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-semibold">Laptops</h3>
+                </div>
+                <div class="category-card bg-gray-100 p-6 rounded-lg text-center cursor-pointer hover:shadow-lg transition duration-300 reveal">
+                    <div class="w-20 h-20 mx-auto mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5fb74d15-2e0c-455c-8223-386d825c3663.png" alt="Premium quality USB-C, HDMI and charging cables organized neatly" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-semibold">Wires & Cables</h3>
+                </div>
+                <div class="category-card bg-gray-100 p-6 rounded-lg text-center cursor-pointer hover:shadow-lg transition duration-300 reveal">
+                    <div class="w-20 h-20 mx-auto mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/98eeab38-57a9-4f86-a818-93508d84cdf6.png" alt="Home automation devices and smart assistants" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-semibold">Smart Devices</h3>
+                </div>
+                <div class="category-card bg-gray-100 p-6 rounded-lg text-center cursor-pointer hover:shadow-lg transition duration-300 reveal">
+                    <div class="w-20 h-20 mx-auto mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b39448cf-3049-4c34-b093-c951bdc78b77.png" alt="Headphones and speakers on display" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-semibold">Audio</h3>
+                </div>
+                <div class="category-card bg-gray-100 p-6 rounded-lg text-center cursor-pointer hover:shadow-lg transition duration-300 reveal">
+                    <div class="w-20 h-20 mx-auto mb-4">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e7d22451-9a37-4cd9-855a-948de4353f14.png" alt="Assorted electronic components and tools" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-semibold">Components</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-16 px-4 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold reveal">Featured Products</h2>
+                <a href="#" class="text-blue-600 hover:text-blue-800 font-medium reveal">View All</a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="product-card bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 reveal">
+                    <div class="relative">
+                        <div class="absolute top-2 left-2 bg-red-500 text-white text-xs px-2 py-1 rounded">Sale</div>
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/692e6f5f-b3c3-4770-aa5e-3cf6e68f9d77.png" alt="Premium wireless headphones with noise cancellation feature" class="w-full h-48 object-contain mb-4">
+                        <button class="absolute bottom-2 right-2 bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-blue-700 transition duration-300">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                    <h3 class="font-semibold mb-1">Noise-Cancelling Wireless Headphones</h3>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">(142)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-bold text-lg text-blue-600">$199.99</span>
+                        <span class="ml-2 text-sm text-gray-500 line-through">$249.99</span>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 reveal">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/42cfcb3d-7149-4883-bfee-b898d0c35126.png" alt="Latest smartphone model with edge-to-edge display" class="w-full h-48 object-contain mb-4">
+                    <h3 class="font-semibold mb-1">Pro X Smartphone 128GB</h3>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">(89)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-bold text-lg text-blue-600">$899.00</span>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 reveal">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a30b28aa-b72b-47e1-bf55-711e26d51dac.png" alt="High-speed USB-C charging cable with multiple connectors" class="w-full h-48 object-contain mb-4">
+                    <h3 class="font-semibold mb-1">Premium USB-C Cable Pack</h3>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">(256)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-bold text-lg text-blue-600">$24.99</span>
+                        <span class="ml-2 text-sm text-gray-500 line-through">$29.99</span>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card bg-white p-4 rounded-lg shadow-md hover:shadow-xl transition duration-300 reveal">
+                    <div class="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">New</div>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/308d765a-a717-4a7e-9e12-cfe49822938d.png" alt="Smart watch with fitness tracking features" class="w-full h-48 object-contain mb-4">
+                    <h3 class="font-semibold mb-1">Smart Watch Series 5</h3>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-yellow-400 mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 text-sm">(42)</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-bold text-lg text-blue-600">$179.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="py-16 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 reveal">Why Choose ElectroHub?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="flex flex-col items-center text-center p-6 rounded-lg reveal">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Quality Guarantee</h3>
+                    <p class="text-gray-600">All our products undergo strict quality control to ensure premium performance and durability.</p>
+                </div>
+                <div class="flex flex-col items-center text-center p-6 rounded-lg reveal">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-truck text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Fast Shipping</h3>
+                    <p class="text-gray-600">Get your orders delivered quickly with our express shipping options available nationwide.</p>
+                </div>
+                <div class="flex flex-col items-center text-center p-6 rounded-lg reveal">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-headset text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">24/7 Support</h3>
+                    <p class="text-gray-600">Our expert support team is always ready to assist you with any questions or concerns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deals of the Week -->
+    <section class="py-16 px-4 bg-gray-100">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-4 reveal">Deals of the Week</h2>
+            <p class="text-center text-gray-600 mb-12 reveal">Limited time offers on premium electronics</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                <!-- Deal 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/2 h-64">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7bf0db01-bac2-465d-8d56-e0690b060eed.png" alt="High-end gaming laptop with RGB keyboard" class="w-full h-full object-cover">
+                        </div>
+                        <div class="md:w-1/2 p-6 flex flex-col justify-center">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="inline-block bg-red-100 text-red-600 text-xs px-2 py-1 rounded mb-2">40% OFF</span>
+                                    <h3 class="font-bold text-xl mb-2">Gaming Laptop Pro</h3>
+                                    <div class="flex items-center mb-2">
+                                        <div class="flex text-yellow-400 mr-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <span class="text-gray-600 text-sm">(78)</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-lg font-bold text-red-600">$1,299.00</span>
+                                    <span class="block text-gray-500 line-through">$2,199.00</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4">Powerful gaming laptop with RTX 3080, 32GB RAM, and 1TB SSD storage.</p>
+                            <div class="flex items-center mb-4">
+                                <span class="text-sm text-gray-500">Ends in:</span>
+                                <div class="ml-2 flex space-x-1">
+                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">02d</span>
+                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">14h</span>
+                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">37m</span>
+                                </div>
+                            </div>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full transition duration-300 transform hover:scale-105">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Deal 2 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300">
+                    <div class="flex flex-col md:flex-row">
+                        <div class="md:w-1/2 h-64">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4736ea02-1562-42ff-b4b9-8dadcfa87939.png" alt="Premium wireless earbuds in charging case" class="w-full h-full object-cover">
+                        </div>
+                        <div class="md:w-1/2 p-6 flex flex-col justify-center">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="inline-block bg-red-100 text-red-600 text-xs px-2 py-1 rounded mb-2">35% OFF</span>
+                                    <h3 class="font-bold text-xl mb-2">Wireless Earbuds Plus</h3>
+                                    <div class="flex items-center mb-2">
+                                        <div class="flex text-yellow-400 mr-2">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span class="text-gray-600 text-sm">(231)</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-lg font-bold text-red-600">$99.99</span>
+                                    <span class="block text-gray-500 line-through">$149.99</span>
+                                </div>
+                            </div>
+                            <p class="text-gray-600 mb-4">High-quality wireless earbuds with active noise cancellation and 24h battery life.</p>
+                            <div class="flex items-center mb-4">
+                                <span class="text-sm text-gray-500">Ends in:</span>
+                                <div class="ml-2 flex space-x-1">
+                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">01d</span>
+                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">08h</span>
+                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">42m</span>
+                                </div>
+                            </div>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full transition duration-300 transform hover:scale-105">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 px-4 bg-blue-600 text-white">
+        <div class="max-w-5xl mx-auto text-center reveal">
+            <h2 class="text-3xl font-bold mb-4">Subscribe to Our Newsletter</h2>
+            <p class="text-lg mb-8">Get the latest updates on new products, promotions, and tech tips directly to your inbox.</p>
+            <div class="flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto">
+                <input type="email" placeholder="Your email address" class="px-4 py-3 rounded-full focus:outline-none text-gray-800 w-full">
+                <button class="bg-white text-blue-600 font-bold px-6 py-3 rounded-full hover:bg-gray-100 transition duration-300">
+                    Subscribe
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- About -->
+                <div class="reveal">
+                    <h3 class="text-xl font-bold mb-4">About ElectroHub</h3>
+                    <p class="text-gray-400 mb-4">Your premier destination for quality electronics and components at competitive prices since 2012.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div class="reveal">
+                    <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Shop</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Customer Service -->
+                <div class="reveal">
+                    <h3 class="text-xl font-bold mb-4">Customer Service</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">My Account</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Order Tracking</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Wish List</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Shipping Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Returns</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div class="reveal">
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <address class="not-italic text-gray-400">
+                        <div class="flex items-start mb-2">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
+                            <p>123 Tech Street, Silicon Valley, CA 94000</p>
+                        </div>
+                        <div class="flex items-start mb-2">
+                            <i class="fas fa-phone mt-1 mr-2"></i>
+                            <p>(800) 123-4567</p>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2"></i>
+                            <p>support@electrohub.com</p>
+                        </div>
+                    </address>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0 reveal">© 2023 ElectroHub. All rights reserved.</p>
+                <div class="flex space-x-6 reveal">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7e74909e-82e6-4f9d-82c5-c7f96fd98468.png" alt="Visa payment method logo" class="h-8 object-contain">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e967d8ea-47f5-4abd-89a0-29d124bc8533.png" alt="Mastercard payment method logo" class="h-8 object-contain">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/002a571c-ba1f-4d81-a78f-ea8708872616.png" alt="PayPal payment method logo" class="h-8 object-contain">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/09d5f482-13a6-4656-ae4a-418a3123a485.png" alt="Apple Pay payment method logo" class="h-8 object-contain">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Animation
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                } else {
+                    reveals[i].classList.remove("active");
+                }
+            }
+        }
+
+        window.addEventListener("scroll", reveal);
+        
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Dropdown Menu Toggle
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const button = dropdown.querySelector('button');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            
+            button.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+            });
+        });
+        
+        // Login Modal
+        const loginBtn = document.getElementById('loginBtn');
+        const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeBtn = document.querySelector('.close');
+        
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'block';
+        });
+        
+        mobileLoginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'block';
+            mobileMenu.classList.add('hidden');
+        });
+        
+        closeBtn.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+        });
+        
+        // Login Form Submission
+        const loginForm = document.getElementById('loginForm');
+        
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Here you would typically send the data to a server
+            console.log('Login attempted with:', email, password);
+            
+            // Show success message (in a real app, you'd verify credentials first)
+            alert('Login successful!');
+            loginModal.style.display = 'none';
+            loginForm.reset();
+        });
+        
+        // Initialize scroll reveal on page load
+        document.addEventListener('DOMContentLoaded', reveal);
+    </script>
+</body>
+</html>
